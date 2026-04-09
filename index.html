@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harivanshi Studying</title>
+<meta name="description" content="Harivanshi Studying App">
+<meta name="theme-color" content="#FF6B00">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Harivanshi Studying">
+<link rel="manifest" href="data:application/json,{%22name%22:%22Harivanshi%20Studying%22,%22short_name%22:%22Harivanshi%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%23FFF8E7%22,%22theme_color%22:%22%23FF6B00%22,%22icons%22:[{%22src%22:%22data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ccircle%20cx%3D%2750%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%27%23FF6B00%27%2F%3E%3Ctext%20y%3D%27.9em%27%20font-size%3D%2770%27%20x%3D%2715%27%3E%F0%9F%95%89%3C%2Ftext%3E%3C%2Fsvg%3E%22,%22sizes%22:%22192x192%22,%22type%22:%22image/svg+xml%22}]}">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --golden: #F5A623;
+    --saffron: #FF6B00;
+    --pink: #FFB6C1;
+    --beige: #F5F0E8;
+    --cream: #FFF8E7;
+    --dark: #2D1B00;
+    --mid: #8B4513;
+    --soft-pink: #FFE4E8;
+    --glow: rgba(245,166,35,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Decorative background */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: 
+      radial-gradient(ellipse at 10% 20%, rgba(255,107,0,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 80%, rgba(255,182,193,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(245,166,35,0.05) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, var(--saffron) 0%, var(--golden) 50%, #FFD700 100%);
+    padding: 16px 20px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(255,107,0,0.3);
+  }
+
+  .header::before {
+    content: '🕉️';
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: white;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    letter-spacing: 1px;
+  }
+
+  .header p {
+    font-size: 11px;
+    color: rgba(255,255,255,0.85);
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  /* Navigation tabs */
+  .nav {
+    display: flex;
+    overflow-x: auto;
+    background: white;
+    border-bottom: 2px solid var(--pink);
+    padding: 0 8px;
+    gap: 4px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+
+  .nav-btn {
+    padding: 10px 14px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #999;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .nav-btn .icon { font-size: 18px; }
+  .nav-btn.active { color: var(--saffron); border-bottom-color: var(--saffron); }
+  .nav-btn:hover { color: var(--golden); }
+
+  /* Sections */
+  .section { display: none; padding: 16px; position: relative; z-index: 1; }
+  .section.active { display: block; animation: fadeIn 0.3s ease; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Cards */
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid rgba(255,182,193,0.3);
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--saffron);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Flip Clock */
+  .flip-clock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 0;
+  }
+
+  .flip-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .flip-card {
+    background: linear-gradient(135deg, var(--dark) 0%, #4a2f00 100%);
+    color: var(--golden);
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 700;
+    width: 72px;
+    height: 80px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .flip-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0; right: 0;
+    height: 1px;
+    background: rgba(245,166,35,0.3);
+  }
+
+  .flip-label {
+    font-size: 10px;
+    color: #999;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .flip-sep {
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--saffron);
+    margin-bottom: 20px;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+  .date-display {
+    text-align: center;
+    color: var(--mid);
+    font-size: 13px;
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* Naam Jap Counter */
+  .jap-counter {
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .jap-count {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--saffron), var(--golden));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+    margin: 10px 0;
+  }
+
+  .jap-mantra {
+    font-family: 'Kalam', cursive;
+    font-size: 18px;
+    color: var(--mid);
+    margin-bottom: 16px;
+  }
+
+  .jap-btn {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, var(--saffron), var(--golden));
+    color: white;
+    font-size: 32px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(255,107,0,0.4);
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .jap-btn:active { transform: scale(0.92); box-shadow: 0 2px 10px rgba(255,107,0,0.3); }
+
+  .jap-btn span { font-size: 11px; font-family: 'Poppins', sans-serif; font-weight: 600; }
+
+  .jap-controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .jap-mini-btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .btn-reset { background: var(--beige); color: var(--dark); }
+  .btn-target { background: var(--pink); color: var(--dark); }
+
+  .jap-target {
+    font-size: 12px;
+    color: #999;
+    margin-top: 10px;
+  }
+
+  .jap-progress {
+    width: 100%;
+    height: 8px;
+    background: var(--beige);
+    border-radius: 10px;
+    margin-top: 12px;
+    overflow: hidden;
+  }
+
+  .jap-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--saffron), var(--golden));
+    border-radius: 10px;
+    transition: width 0.3s ease;
+  }
+
+  /* Timetable */
+  .time-slot {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+    align-items: center;
+  }
+
+  .time-input {
+    padding: 8px 10px;
+    border: 1.5px solid var(--pink);
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    background: var(--cream);
+    color: var(--dark);
+    width: 90px;
+  }
+
+  .subject-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1.5px solid var(--pink);
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    background: var(--cream);
+    color: var(--dark);
+  }
+
+  input:focus { outline: none; border-color: var(--saffron); }
+
+  .slot-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #ccc;
+  }
+  .slot-delete:hover { color: #ff6b6b; }
+
+  .add-btn {
+    width: 100%;
+    padding: 10px;
+    border: 2px dashed var(--pink);
+    background: var(--soft-pink);
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    color: var(--mid);
+    transition: all 0.2s;
+  }
+  .add-btn:hover { border-color: var(--saffron); color: var(--saffron); }
+
+  /* Syllabus Tracker */
+  .subject-block { margin-bottom: 16px; }
+
+  .subject-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .subject-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--dark);
+  }
+
+  .subject-percent {
+    font-size: 12px;
+    color: var(--saffron);
+    font-weight: 600;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--beige);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--saffron), var(--golden));
+    border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+
+  .chapter-list { padding-left: 4px; }
+
+  .chapter-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,182,193,0.2);
+    cursor: pointer;
+  }
+
+  .chapter-check {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--pink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .chapter-item.done .chapter-check {
+    background: linear-gradient(135deg, var(--saffron), var(--golden));
+    border-color: transparent;
+    color: white;
+    font-size: 10px;
+  }
+
+  .chapter-text {
+    font-size: 13px;
+    flex: 1;
+  }
+
+  .chapter-item.done .chapter-text {
+    text-decoration: line-through;
+    color: #aaa;
+  }
+
+  /* Habit Tracker */
+  .habit-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,182,193,0.2);
+  }
+
+  .habit-name { flex: 1; font-size: 13px; }
+
+  .habit-days {
+    display: flex;
+    gap: 4px;
+  }
+
+  .day-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--pink);
+    background: white;
+    cursor: pointer;
+    font-size: 9px;
+    font-weight: 600;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .day-dot.done {
+    background: linear-gradient(135deg, var(--saffron), var(--golden));
+    border-color: transparent;
+    color: white;
+  }
+
+  .habit-delete { background: none; border: none; cursor: pointer; color: #ddd; font-size: 16px; }
+  .habit-delete:hover { color: #ff6b6b; }
+
+  .habit-add-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .habit-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1.5px solid var(--pink);
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    background: var(--cream);
+  }
+
+  .save-btn {
+    padding: 10px 18px;
+    background: linear-gradient(135deg, var(--saffron), var(--golden));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* Journal */
+  .calendar-mini {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+
+  .cal-day-header {
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--saffron);
+    padding: 4px 0;
+  }
+
+  .cal-day {
+    text-align: center;
+    padding: 6px 0;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .cal-day:hover { background: var(--beige); }
+  .cal-day.today { background: linear-gradient(135deg, var(--saffron), var(--golden)); color: white; font-weight: 700; }
+  .cal-day.has-entry { border-bottom: 2px solid var(--pink); }
+  .cal-day.empty { color: #ddd; }
+
+  .journal-date {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--mid);
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+
+  .journal-textarea {
+    width: 100%;
+    min-height: 160px;
+    padding: 14px;
+    border: 1.5px solid var(--pink);
+    border-radius: 14px;
+    font-family: 'Kalam', cursive;
+    font-size: 15px;
+    line-height: 1.8;
+    background: linear-gradient(rgba(255,182,193,0.05) 0%, transparent 100%),
+                repeating-linear-gradient(transparent, transparent 31px, rgba(255,182,193,0.3) 31px, rgba(255,182,193,0.3) 32px);
+    resize: vertical;
+    color: var(--dark);
+  }
+
+  .journal-textarea:focus { outline: none; border-color: var(--saffron); }
+
+  .journal-save {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--pink), #FFa0b4);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(255,182,193,0.4);
+  }
+
+  /* Tasks notification */
+  .task-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,182,193,0.2);
+  }
+
+  .task-check {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    border: 2px solid var(--pink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .task-item.done .task-check {
+    background: linear-gradient(135deg, var(--saffron), var(--golden));
+    border-color: transparent;
+    color: white;
+    font-size: 12px;
+  }
+
+  .task-item.done .task-text { text-decoration: line-through; color: #bbb; }
+
+  .task-text { flex: 1; font-size: 13px; }
+
+  .task-time {
+    font-size: 11px;
+    color: var(--saffron);
+    font-weight: 600;
+    background: rgba(245,166,35,0.1);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  .task-add-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  .task-input {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--pink);
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    background: var(--cream);
+  }
+
+  .task-time-input {
+    width: 100px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--pink);
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    background: var(--cream);
+  }
+
+  /* Floating Om */
+  .float-om {
+    position: fixed;
+    bottom: 20px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--saffron), var(--golden));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 16px rgba(255,107,0,0.4);
+    animation: float 3s ease-in-out infinite;
+    z-index: 200;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  /* Section header */
+  .section-header {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--saffron);
+  }
+
+  .section-header p {
+    font-size: 11px;
+    color: #aaa;
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+
+  .tag-jee { background: rgba(255,107,0,0.1); color: var(--saffron); }
+  .tag-board { background: rgba(255,182,193,0.4); color: var(--mid); }
+
+  select {
+    padding: 8px 12px;
+    border: 1.5px solid var(--pink);
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    background: var(--cream);
+    color: var(--dark);
+  }
+  select:focus { outline: none; border-color: var(--saffron); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Shri Harivansh's Study Sanctuary</h1>
+  <p>॥ सा विद्या या विमुक्तये ॥</p>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showSection('clock')">
+    <span class="icon">🕐</span>Clock
+  </button>
+  <button class="nav-btn" onclick="showSection('tasks')">
+    <span class="icon">✅</span>Tasks
+  </button>
+  <button class="nav-btn" onclick="showSection('timetable')">
+    <span class="icon">📅</span>Timetable
+  </button>
+  <button class="nav-btn" onclick="showSection('syllabus')">
+    <span class="icon">📚</span>Syllabus
+  </button>
+  <button class="nav-btn" onclick="showSection('habits')">
+    <span class="icon">🌸</span>Habits
+  </button>
+  <button class="nav-btn" onclick="showSection('jap')">
+    <span class="icon">🙏</span>Naam Jap
+  </button>
+  <button class="nav-btn" onclick="showSection('journal')">
+    <span class="icon">📔</span>Journal
+  </button>
+</nav>
+
+<!-- CLOCK -->
+<div class="section active" id="section-clock">
+  <div class="section-header">
+    <h2>✨ Divine Time</h2>
+    <p>Har pal amulya hai</p>
+  </div>
+  <div class="card">
+    <div class="flip-clock">
+      <div class="flip-unit">
+        <div class="flip-card" id="clock-h">00</div>
+        <div class="flip-label">Hours</div>
+      </div>
+      <div class="flip-sep">:</div>
+      <div class="flip-unit">
+        <div class="flip-card" id="clock-m">00</div>
+        <div class="flip-label">Minutes</div>
+      </div>
+      <div class="flip-sep">:</div>
+      <div class="flip-unit">
+        <div class="flip-card" id="clock-s">00</div>
+        <div class="flip-label">Seconds</div>
+      </div>
+    </div>
+    <div class="date-display" id="clock-date"></div>
+  </div>
+
+  <!-- Upcoming task reminder -->
+  <div class="card">
+    <div class="card-title">⏰ Next Up</div>
+    <div id="next-task-display" style="text-align:center; color:#aaa; font-size:13px; padding:10px 0;">
+      No upcoming tasks. Add some! ✨
+    </div>
+  </div>
+</div>
+
+<!-- TASKS -->
+<div class="section" id="section-tasks">
+  <div class="section-header">
+    <h2>✅ Today's Tasks</h2>
+    <p>Ek ek step, manzil tak</p>
+  </div>
+  <div class="card">
+    <div id="task-list"></div>
+    <div class="task-add-row">
+      <input class="task-input" id="task-input" placeholder="Kya karna hai..." onkeypress="if(event.key==='Enter') addTask()">
+      <input class="task-time-input" id="task-time" type="time">
+      <button class="save-btn" onclick="addTask()">+ Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- TIMETABLE -->
+<div class="section" id="section-timetable">
+  <div class="section-header">
+    <h2>📅 My Timetable</h2>
+    <p>Discipline hi safalta hai</p>
+  </div>
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <div class="card-title" style="margin:0">📅 Schedule</div>
+      <select id="tt-day" onchange="renderTimetable()">
+        <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+        <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
+      </select>
+    </div>
+    <div id="timetable-slots"></div>
+    <button class="add-btn" onclick="addTimeSlot()">+ Add Time Slot</button>
+  </div>
+</div>
+
+<!-- SYLLABUS -->
+<div class="section" id="section-syllabus">
+  <div class="section-header">
+    <h2>📚 Syllabus Tracker</h2>
+    <p>Chapter by chapter, victory!</p>
+  </div>
+  <div class="card" id="syllabus-container"></div>
+  <div class="card">
+    <div class="card-title">➕ Add Chapter</div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <select id="syl-subject" style="flex:1; min-width:100px;">
+        <option>Physics</option><option>Chemistry</option><option>Maths</option>
+        <option>History</option><option>Geography</option><option>English</option><option>Biology</option>
+      </select>
+      <input class="subject-input" id="syl-chapter" placeholder="Chapter name..." style="flex:2;">
+      <button class="save-btn" onclick="addChapter()">Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- HABITS -->
+<div class="section" id="section-habits">
+  <div class="section-header">
+    <h2>🌸 Habit Tracker</h2>
+    <p>Small habits, big results</p>
+  </div>
+  <div class="card">
+    <div style="display:flex; gap:4px; justify-content:flex-end; margin-bottom:8px;">
+      <span style="font-size:10px; color:#aaa;">M T W T F S S</span>
+    </div>
+    <div id="habit-list"></div>
+    <div class="habit-add-row">
+      <input class="habit-input" id="habit-input" placeholder="New habit..." onkeypress="if(event.key==='Enter') addHabit()">
+      <button class="save-btn" onclick="addHabit()">+ Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAAM JAP -->
+<div class="section" id="section-jap">
+  <div class="section-header">
+    <h2>🙏 Naam Jap</h2>
+    <p>Har naam mein shakti hai</p>
+  </div>
+  <div class="card">
+    <div class="jap-counter">
+      <div class="jap-mantra" id="jap-mantra-text">🕉️ Hare Krishna Hare Krishna</div>
+      <div class="jap-count" id="jap-count">0</div>
+      <div style="font-size:12px; color:#aaa; margin-bottom:16px;">malas completed: <span id="mala-count">0</span> / 108</div>
+      <button class="jap-btn" onclick="incrementJap()">
+        🙏
+        <span>JAP</span>
+      </button>
+      <div class="jap-progress">
+        <div class="jap-progress-bar" id="jap-bar" style="width:0%"></div>
+      </div>
+      <div class="jap-target">Target: <span id="jap-target-display">108</span> japs</div>
+      <div class="jap-controls">
+        <button class="jap-mini-btn btn-target" onclick="setJapTarget()">🎯 Set Target</button>
+        <button class="jap-mini-btn btn-reset" onclick="resetJap()">🔄 Reset</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">🕉️ Choose Mantra</div>
+    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+      <button class="tag tag-jee" onclick="setMantra('🕉️ Hare Krishna Hare Krishna')">Hare Krishna</button>
+      <button class="tag tag-board" onclick="setMantra('🌸 Jai Shri Ram')">Jai Shri Ram</button>
+      <button class="tag tag-jee" onclick="setMantra('🙏 Om Namah Shivaya')">Om Namah Shivaya</button>
+      <button class="tag tag-board" onclick="setMantra('✨ Om Namo Bhagavate')">Om Namo Bhagavate</button>
+    </div>
+  </div>
+</div>
+
+<!-- JOURNAL -->
+<div class="section" id="section-journal">
+  <div class="section-header">
+    <h2>📔 Daily Journal</h2>
+    <p>Apne dil ki baat likh do</p>
+  </div>
+  <div class="card">
+    <div class="calendar-mini" id="mini-cal"></div>
+  </div>
+  <div class="card">
+    <div class="journal-date" id="journal-date-label"></div>
+    <textarea class="journal-textarea" id="journal-text" placeholder="Aaj kya hua? Kya sikha? Kaise feel kar rahe ho? ✍️"></textarea>
+    <button class="journal-save" onclick="saveJournal()">💾 Save Entry</button>
+  </div>
+</div>
+
+<div class="float-om">🕉️</div>
+
+<script>
+// ==================== STATE ====================
+let state = JSON.parse(localStorage.getItem('sanctuary') || '{}');
+if (!state.tasks) state.tasks = [];
+if (!state.timetable) state.timetable = {};
+if (!state.syllabus) state.syllabus = {};
+if (!state.habits) state.habits = [];
+if (!state.habitData) state.habitData = {};
+if (!state.jap) state.jap = { count: 0, target: 108, mantra: '🕉️ Hare Krishna Hare Krishna' };
+if (!state.journal) state.journal = {};
+
+function save() { localStorage.setItem('sanctuary', JSON.stringify(state)); }
+
+// ==================== NAV ====================
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if (id === 'journal') renderCalendar();
+  if (id === 'timetable') renderTimetable();
+  if (id === 'syllabus') renderSyllabus();
+  if (id === 'habits') renderHabits();
+  if (id === 'tasks') renderTasks();
+  if (id === 'jap') renderJap();
+}
+
+// ==================== CLOCK ====================
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('clock-h').textContent = h;
+  document.getElementById('clock-m').textContent = m;
+  document.getElementById('clock-s').textContent = s;
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('clock-date').textContent =
+    `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+  updateNextTask(now);
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+function updateNextTask(now) {
+  const upcoming = state.tasks.filter(t => !t.done && t.time).sort((a,b) => a.time.localeCompare(b.time));
+  const el = document.getElementById('next-task-display');
+  if (!upcoming.length) { el.innerHTML = '<span style="color:#aaa;font-size:13px;">No upcoming tasks ✨</span>'; return; }
+  const next = upcoming[0];
+  el.innerHTML = `<div style="display:flex;align-items:center;gap:10px;justify-content:center;">
+    <span style="font-size:28px;">⏰</span>
+    <div>
+      <div style="font-weight:600;font-size:15px;">${next.text}</div>
+      <div style="color:var(--saffron);font-size:13px;">at ${next.time}</div>
+    </div>
+  </div>`;
+}
+
+// ==================== TASKS ====================
+function renderTasks() {
+  const list = document.getElementById('task-list');
+  if (!state.tasks.length) { list.innerHTML = '<div style="text-align:center;color:#aaa;padding:20px;font-size:13px;">Koi task nahi! Add karo 🌸</div>'; return; }
+  list.innerHTML = state.tasks.map((t,i) => `
+    <div class="task-item ${t.done?'done':''}" onclick="toggleTask(${i})">
+      <div class="task-check">${t.done?'✓':''}</div>
+      <div class="task-text">${t.text}</div>
+      ${t.time ? `<span class="task-time">${t.time}</span>` : ''}
+      <button onclick="event.stopPropagation();deleteTask(${i})" style="background:none;border:none;cursor:pointer;color:#ddd;font-size:16px;">✕</button>
+    </div>
+  `).join('');
+}
+
+function addTask() {
+  const text = document.getElementById('task-input').value.trim();
+  const time = document.getElementById('task-time').value;
+  if (!text) return;
+  state.tasks.push({ text, time, done: false });
+  document.getElementById('task-input').value = '';
+  document.getElementById('task-time').value = '';
+  save(); renderTasks();
+}
+
+function toggleTask(i) { state.tasks[i].done = !state.tasks[i].done; save(); renderTasks(); }
+function deleteTask(i) { state.tasks.splice(i,1); save(); renderTasks(); }
+
+// ==================== TIMETABLE ====================
+function getCurrentDay() {
+  return document.getElementById('tt-day').value;
+}
+
+function renderTimetable() {
+  const day = getCurrentDay();
+  const slots = state.timetable[day] || [];
+  const container = document.getElementById('timetable-slots');
+  if (!slots.length) { container.innerHTML = '<div style="text-align:center;color:#aaa;padding:16px;font-size:13px;">Koi slot nahi! Add karo 📅</div>'; return; }
+  container.innerHTML = slots.map((s,i) => `
+    <div class="time-slot">
+      <input class="time-input" type="time" value="${s.time}" onchange="updateSlot('${day}',${i},'time',this.value)">
+      <input class="subject-input" type="text" value="${s.subject}" placeholder="Subject / Task" onchange="updateSlot('${day}',${i},'subject',this.value)">
+      <button class="slot-delete" onclick="deleteSlot('${day}',${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function addTimeSlot() {
+  const day = getCurrentDay();
+  if (!state.timetable[day]) state.timetable[day] = [];
+  state.timetable[day].push({ time: '', subject: '' });
+  save(); renderTimetable();
+}
+
+function updateSlot(day, i, key, val) { state.timetable[day][i][key] = val; save(); }
+function deleteSlot(day, i) { state.timetable[day].splice(i,1); save(); renderTimetable(); }
+
+// ==================== SYLLABUS ====================
+function renderSyllabus() {
+  const container = document.getElementById('syllabus-container');
+  const subjects = Object.keys(state.syllabus);
+  if (!subjects.length) { container.innerHTML = '<div style="text-align:center;color:#aaa;padding:20px;font-size:13px;">No chapters added yet! 📚</div>'; return; }
+  container.innerHTML = subjects.map(sub => {
+    const chapters = state.syllabus[sub];
+    const done = chapters.filter(c => c.done).length;
+    const pct = chapters.length ? Math.round(done/chapters.length*100) : 0;
+    return `
+      <div class="subject-block">
+        <div class="subject-header">
+          <div class="subject-name">📖 ${sub}</div>
+          <div class="subject-percent">${pct}%</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+        <div class="chapter-list">
+          ${chapters.map((c,i) => `
+            <div class="chapter-item ${c.done?'done':''}" onclick="toggleChapter('${sub}',${i})">
+              <div class="chapter-check">${c.done?'✓':''}</div>
+              <div class="chapter-text">${c.name}</div>
+              <button onclick="event.stopPropagation();deleteChapter('${sub}',${i})" style="background:none;border:none;cursor:pointer;color:#ddd;">✕</button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function addChapter() {
+  const sub = document.getElementById('syl-subject').value;
+  const name = document.getElementById('syl-chapter').value.trim();
+  if (!name) return;
+  if (!state.syllabus[sub]) state.syllabus[sub] = [];
+  state.syllabus[sub].push({ name, done: false });
+  document.getElementById('syl-chapter').value = '';
+  save(); renderSyllabus();
+}
+
+function toggleChapter(sub, i) { state.syllabus[sub][i].done = !state.syllabus[sub][i].done; save(); renderSyllabus(); }
+function deleteChapter(sub, i) { state.syllabus[sub].splice(i,1); if (!state.syllabus[sub].length) delete state.syllabus[sub]; save(); renderSyllabus(); }
+
+// ==================== HABITS ====================
+const DAYS_SHORT = ['M','T','W','T','F','S','S'];
+const TODAY_DOW = new Date().getDay(); // 0=Sun
+const todayIdx = TODAY_DOW === 0 ? 6 : TODAY_DOW - 1;
+const todayKey = new Date().toISOString().split('T')[0];
+
+function renderHabits() {
+  const list = document.getElementById('habit-list');
+  if (!state.habits.length) { list.innerHTML = '<div style="text-align:center;color:#aaa;padding:20px;font-size:13px;">No habits yet! Start building! 🌸</div>'; return; }
+  list.innerHTML = state.habits.map((h,hi) => {
+    const weekDots = DAYS_SHORT.map((d,di) => {
+      const key = getWeekDayKey(di);
+      const done = state.habitData[hi] && state.habitData[hi][key];
+      return `<div class="day-dot ${done?'done':''}" onclick="toggleHabit(${hi},${di},'${key}')">${d}</div>`;
+    }).join('');
+    return `
+      <div class="habit-row">
+        <div class="habit-name">${h}</div>
+        <div class="habit-days">${weekDots}</div>
+        <button class="habit-delete" onclick="deleteHabit(${hi})">✕</button>
+      </div>
+    `;
+  }).join('');
+}
+
+function getWeekDayKey(di) {
+  const now = new Date();
+  const diff = di - todayIdx;
+  const d = new Date(now);
+  d.setDate(d.getDate() + diff);
+  return d.toISOString().split('T')[0];
+}
+
+function toggleHabit(hi, di, key) {
+  if (!state.habitData[hi]) state.habitData[hi] = {};
+  state.habitData[hi][key] = !state.habitData[hi][key];
+  save(); renderHabits();
+}
+
+function addHabit() {
+  const name = document.getElementById('habit-input').value.trim();
+  if (!name) return;
+  state.habits.push(name);
+  document.getElementById('habit-input').value = '';
+  save(); renderHabits();
+}
+
+function deleteHabit(i) { state.habits.splice(i,1); delete state.habitData[i]; save(); renderHabits(); }
+
+// ==================== NAAM JAP ====================
+function renderJap() {
+  document.getElementById('jap-count').textContent = state.jap.count;
+  document.getElementById('jap-mantra-text').textContent = state.jap.mantra;
+  document.getElementById('jap-target-display').textContent = state.jap.target;
+  document.getElementById('mala-count').textContent = Math.floor(state.jap.count / 108);
+  const pct = Math.min(100, (state.jap.count / state.jap.target) * 100);
+  document.getElementById('jap-bar').style.width = pct + '%';
+}
+
+function incrementJap() {
+  state.jap.count++;
+  save(); renderJap();
+  // haptic-like visual feedback
+  const btn = document.querySelector('.jap-btn');
+  btn.style.transform = 'scale(0.92)';
+  setTimeout(() => btn.style.transform = '', 150);
+}
+
+function resetJap() {
+  if (confirm('Reset naam jap count?')) { state.jap.count = 0; save(); renderJap(); }
+}
+
+function setJapTarget() {
+  const t = prompt('Set your jap target:', state.jap.target);
+  if (t && !isNaN(t)) { state.jap.target = parseInt(t); save(); renderJap(); }
+}
+
+function setMantra(m) { state.jap.mantra = m; save(); renderJap(); }
+
+// ==================== JOURNAL ====================
+let selectedJournalDate = todayKey;
+
+function renderCalendar() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  
+  document.getElementById('journal-date-label').textContent = 
+    `✍️ ${now.toLocaleDateString('en-IN', {weekday:'long', year:'numeric', month:'long', day:'numeric'})}`;
+
+  let html = `<div class="cal-day-header" style="grid-column:1/-1; font-size:13px; color:var(--saffron); font-family:'Playfair Display',serif; margin-bottom:4px;">${months[month]} ${year}</div>`;
+  ['S','M','T','W','T','F','S'].forEach(d => html += `<div class="cal-day-header">${d}</div>`);
+  
+  const startDay = firstDay;
+  for (let i = 0; i < startDay; i++) html += '<div class="cal-day empty"></div>';
+  
+  for (let d = 1; d <= daysInMonth; d++) {
+    const key = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = d === now.getDate();
+    const hasEntry = !!state.journal[key];
+    html += `<div class="cal-day ${isToday?'today':''} ${hasEntry?'has-entry':''}" onclick="selectJournalDate('${key}',${d})">${d}</div>`;
+  }
+  
+  document.getElementById('mini-cal').innerHTML = html;
+  
+  // Load today's entry
+  document.getElementById('journal-text').value = state.journal[selectedJournalDate] || '';
+}
+
+function selectJournalDate(key, day) {
+  // Save current before switching
+  const text = document.getElementById('journal-text').value;
+  if (text.trim()) state.journal[selectedJournalDate] = text;
+  selectedJournalDate = key;
+  document.getElementById('journal-text').value = state.journal[key] || '';
+  renderCalendar();
+}
+
+function saveJournal() {
+  const text = document.getElementById('journal-text').value.trim();
+  if (text) {
+    state.journal[selectedJournalDate] = text;
+    save();
+    const btn = document.querySelector('.journal-save');
+    btn.textContent = '✅ Saved!';
+    setTimeout(() => btn.textContent = '💾 Save Entry', 2000);
+    renderCalendar();
+  }
+}
+
+// ==================== INIT ====================
+renderTasks();
+renderJap();
+</script>
+</body>
+</html>
